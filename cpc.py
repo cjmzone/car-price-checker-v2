@@ -5,7 +5,7 @@ from requests_html import HTMLSession
 from tkinter import ttk
 from bs4 import BeautifulSoup as bs
 
-class carBuyer:
+class User :
     def __init__(self):  
         self.firstName = ""
         self.lastName = ""
@@ -19,6 +19,7 @@ class WebScraper:
         self.trueCar_URL = ""
         self.soup = ""
         self.price = 0
+        self.carList = []
     
     def getTrueCarData(self, zipcode, year, make, model):
         print("Selected Zip Code:", zipcode)
@@ -38,7 +39,7 @@ class WebScraper:
         v_prices = [element.text for element in soup.find_all("span", {"data-test": "vehicleListingPriceAmount"})]
 
         # Create a list of dictionaries representing cars
-        carList = []
+       
         for i in range(len(v_years)):
             vehicle = {
                 "Year": v_years[i],
@@ -46,24 +47,30 @@ class WebScraper:
                 "Trim": v_trims[i],
                 "Price": v_prices[i]
             }
-            carList.append(vehicle)
+            self.carList.append(vehicle)
 
         print("Cars Information:")
-        for vehicle in carList:
+        for vehicle in self.carList:
             print(vehicle)
         
-        return carList
+        return self.carList
         
 class CarPriceChecker:
     def __init__(self, master):
         self.master = master
         self.master.title("Car Price Checker")
         self.master.geometry("1350x1000")
-
+        self.carListbox = tk.Listbox(self.master, height=20, width=120, font=("Helvetica", 12))
+        self.carListbox.grid(row=0, column=1, rowspan=4, columnspan=3)
+        self.carListbox.bind("<<ListboxSelect>>", self.onCarSelect)
+        
         self.vehicleYear = tk.StringVar(self.master)
         self.vehicleMake = tk.StringVar(self.master)
         self.vehicleModel = tk.StringVar(self.master)
         self.zipCode = tk.StringVar(self.master)
+        
+        # Create a webscraper object
+        self.webScraper = WebScraper()
         self.wishlist = []
 
         self.populateYearDropdown()
@@ -72,14 +79,8 @@ class CarPriceChecker:
         self.populateZipCodeDropdown()
         self.createSearchButton()
         self.createWishlistButton()
-        
-        self.webScraper = WebScraper()
-        
-        self.carListbox = tk.Listbox(self.master, height=20, width=120, font=("Helvetica", 12))
-        self.carListbox.grid(row=0, column=1, rowspan=4, columnspan=3)
-        self.carListbox.bind("<<ListboxSelect>>", self.onCarSelect)
         self.addToWishlist()
-        
+   
     def populateZipCodeDropdown(self):
         startZip = 90001
         endZip = 96162
