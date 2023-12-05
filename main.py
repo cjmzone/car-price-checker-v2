@@ -138,12 +138,10 @@ class PriceChecker(CreateLayout):
     def createListBox(self, parent):
         self.carListbox = tk.Listbox(parent, height=20, width=120, font=("Helvetica", 12))
         self.carListbox.pack(side="top", expand="false", padx=20, pady=10,anchor=tk.NE)
-        #self.carListbox.bind("<<ListboxSelect>>", self.onCarSelect)
     
     def createWishListBox(self, parent):
         self.wishListbox = tk.Listbox(parent, height=20, width=120, font=("Helvetica", 12))
         self.wishListbox.pack(side="right", expand="false", padx=20, pady=40,anchor=tk.NE)
-        #self.wishListbox.bind("<<ListboxSelect>>", self.onCarSelect)
             
     def populateZipCodeDropdown(self, parent):
         startZip = 90001
@@ -192,7 +190,7 @@ class PriceChecker(CreateLayout):
         
         selected_make = self.vehicleMake.get()
         self.models_dropdown["values"] = []
-
+        
         if selected_make in vehicle_models:
             self.models_dropdown["values"] = vehicle_models[selected_make]
             self.models_dropdown.set("Select Model")
