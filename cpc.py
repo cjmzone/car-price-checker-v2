@@ -5,6 +5,9 @@ from requests_html import HTMLSession
 from tkinter import ttk
 from bs4 import BeautifulSoup as bs
 
+class TabMaker:
+    pass
+
 class User :
     def __init__(self):  
         self.firstName = ""
@@ -71,12 +74,13 @@ class CarPriceChecker:
         
         # Create a webscraper object
         self.webScraper = WebScraper()
-        self.wishlist = []
+        self.currentUser = User()
+        
 
+        self.populateZipCodeDropdown()
         self.populateYearDropdown()
         self.populateMakeDropdown()
         self.populateModelDropdown()
-        self.populateZipCodeDropdown()
         self.createSearchButton()
         self.createWishlistButton()
         self.addToWishlist()
@@ -156,7 +160,7 @@ class CarPriceChecker:
         index = self.carListbox.curselection()
         if index:
             selectedVehicle = self.carListbox.get(index)
-            self.wishlist.append(selectedVehicle)
+            self.currentUser.wishlist.append(selectedVehicle)
             print(f"Added to Wishlist: {selectedVehicle}")
         else:
             print("Please select a car from the list.")
