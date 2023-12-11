@@ -90,19 +90,6 @@ class WebScraper:
         r = self.session.get(autoTempest_URL)
         soup = bs(r.text, 'html.parser')
 
-# class User:
-#     def __init__(self):  
-#         self.firstName = ""
-#         self.lastName = ""
-#         self.password = ""
-#         self.wishlist = []
-    
-#     def add_to_wishlist(self, item):
-#         self.wishlist.append(item)
-        
-#     def getWishlist(self):
-#         return self.wishlist
-   
 class PriceChecker(CreateLayout):
     def __init__(self, window, user):
         super().__init__(window)
